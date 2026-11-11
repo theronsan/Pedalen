@@ -56,3 +56,61 @@ body {
     color: var(--color-ink);
     background-color: var(--color-bg);
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Gemensam grundstil för rubriker */
+h1,
+h2,
+h3 {
+    line-height: 1.1;
+    letter-spacing: -0.02rem;
+    margin: 0 0 var(--space-2);
+    font-weight: 700;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+h2 {
+    font-size: clamp(1.9, 4vw, 2.6rem);
+}
+h3 {
+    font-size: 1.35rem;
+}
+
+.lead {
+    font-size: 125%;
+}
+
+a {
+    color: var(--color-primary);
+}
+
+.focus-visible {
+    outline: 3px solid var(--color-primary);
+}
+
+.on-dark {
+    --focus: var(--color-accent);
+}
+
+.container {
+    width: min(100% - 2rem, var(--max-width));
+    margin-inline: auto;
+}
+.section {
+    padding-block: var(--space-5);
+}
+.section-tint {
+    background-color: var(--color-tint);
+}
+.section__intro {
+    font-size: 1.25rem;
+    color: var(--color-muted);
+    margin-bottom: var(--space-4);
+}
