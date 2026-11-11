@@ -1,0 +1,124 @@
+/* ===== Variabler: allt som går att ändra på ett ställe ===== */
+/* Variabler på :root gäller hela sidan. Använd dem med var(--namn).
+      Vill du byta utseende ändrar du bara här, inte på 50 ställen längre ned. */
+:root {
+    /* Kontrastkvoter är uppmätta. Krav: minst 4,5:1 för vanlig text */
+    --color-bg: #f5f6f0;
+    --color-surface: #ffffff;
+    --color-ink: #101a14; /* 16:1 mot bakgrunden */
+    --color-muted: #4b5a50; /* 6,7:1 mot bakgrunden */
+    --color-primary: #14532d; /* 8,4:1 mot bakgrunden, 9,1:1 med vit text på */
+    --color-deep: #0d1b14; /* mörk bakgrund för hero och kontakt */
+    --color-accent: #c8f03c; /* limegrön. Mörk text på den: 13,5:1 */
+    --color-tint: #e9ede3; /* ljus grön-grå, för varannan sektion */
+    --color-line: #d6dccf; /* tunna linjer och ramar */
+
+    --font-body:
+        system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /* systemets eget typsnitt: snabbt, ingen nedladdning, ser inhemskt ut */
+
+    --space-1: 0.5rem; /* avståndsskala i rem: 1rem = webbläsarens textstorlek (normalt 16 px), så siffrorna nedan gäller vid standardinställning */
+    --space-2: 1rem; /* 16 px */
+    --space-3: 1.5rem; /* 24 px */
+    --space-4: 2rem; /* 32 px */
+    --space-5: 3rem; /* 48 px */
+    --space-6: 5rem; /* 80 px, för sektionernas luft */
+
+    --radius: 1.25rem; /* rundade hörn på kort */
+    --radius-lg: 2rem; /* större rundning, för bilden */
+    --shadow: 0 0.5rem 2rem rgba(16, 26, 20, 0.1); /* skugga: x y suddighet färg (0.1 = 10 % täckning) */
+    --text-hero: clamp(
+        2.5rem,
+        6vw,
+        4.5rem
+    ); /* clamp(minst, ideal, störst): växer med fönstret */
+    --max-width: 70rem; /* innehållets maxbredd */
+}
+
+/* GRUNDINSTÄLLNING */
+/* Resets margins and paddings */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hoppar till ankarlänk, men med ett bestämt avstånd uppåt eller nedåt */
+html {
+    scroll-padding-top: 5rem;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Gemensam grundstil för rubriker */
+h1,
+h2,
+h3 {
+    line-height: 1.1;
+    letter-spacing: -0.02rem;
+    margin: 0 0 var(--space-2);
+    font-weight: 700;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+h2 {
+    font-size: clamp(1.9, 4vw, 2.6rem);
+}
+h3 {
+    font-size: 1.35rem;
+}
+
+.lead {
+    font-size: 125%;
+}
+
+a {
+    color: var(--color-primary);
+}
+
+.focus-visible {
+    outline: 3px solid var(--color-primary);
+}
+
+.on-dark {
+    --focus: var(--color-accent);
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background-color: rgba(245, 246, 240, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-line);
+}
+.container {
+    width: min(100% - 2rem, var(--max-width));
+    margin-inline: auto;
+}
+.section {
+    padding-block: var(--space-5);
+}
+.section--tint {
+    background-color: var(--color-tint);
+}
+.section__intro {
+    font-size: 1.25rem;
+    color: var(--color-muted);
+    margin-bottom: var(--space-4);
+}

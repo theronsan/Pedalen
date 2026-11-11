@@ -34,83 +34,220 @@
     --max-width: 70rem; /* innehållets maxbredd */
 }
 
-/* GRUNDINSTÄLLNING */
-/* Resets margins and paddings */
+/* ===== Grundstil ===== */
+/* Stjärnan väljer ALLA element. border-box gör att padding och ram räknas in i bredden,
+      så att en ruta med width: 100% inte sticker ut. Nästan alla projekt börjar med den här. */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
-/* Hoppar till ankarlänk, men med ett bestämt avstånd uppåt eller nedåt */
+/* Så att länkar i menyn inte hamnar under den fasta headern */
+/* scroll-padding-top: när man hoppar till en ankarlänk (#priser) stannar sidan
+      5rem före rubriken, så att den fasta headern inte döljer den. */
 html {
     scroll-padding-top: 5rem;
 }
 
+/* body ärver alla barn: typsnitt, färg och radavstånd som sätts här gäller överallt
+      om inget annat anges. line-height 1.6 gör brödtext lättläst. */
 body {
-    font-family: var(--font-body);
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--color-ink);
-    background-color: var(--color-bg);
+    margin: 0; /* nollställ webbläsarens standardmarginal */
+    font-family: var(
+        --font-body
+    ); /* typsnitt (först i listan som finns används) */
+    font-size: 1.0625rem; /* textstorlek */
+    line-height: 1.6; /* radavstånd (utan enhet = gånger textstorleken) */
+    color: var(--color-ink); /* textfärg */
+    background: var(--color-bg); /* bakgrund */
 }
 
+/* Bilder får aldrig bli bredare än sin ruta. height: auto behåller proportionerna.
+      display: block tar bort det lilla glapp som annars hamnar under en bild. */
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* Gemensam grundstil för rubriker */
+/* Gemensam stil för alla rubriker. Komma betyder 'och': samma regel till flera väljare.
+      text-wrap: balance jämnar ut radbrytningarna så att rubriken inte slutar på ett ensamt ord. */
 h1,
 h2,
 h3 {
-    line-height: 1.1;
-    letter-spacing: -0.02rem;
-    margin: 0 0 var(--space-2);
-    font-weight: 700;
+    line-height: 1.1; /* radavstånd (utan enhet = gånger textstorleken) */
+    letter-spacing: -0.02em; /* avstånd mellan bokstäver (negativt = tätare) */
+    text-wrap: balance; /* jämnar ut radbrytningar */
+    margin: 0 0 var(--space-2); /* luft UTANFÖR elementet (kort form: upp höger ned vänster) */
 }
-
+/* Storleken på h1 sätts längre ned (.hero h1) med clamp(). Här bara tjockleken. */
 h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
 }
+/* clamp(min, ideal, max): storleken följer fönsterbredden (4vw) men håller sig
+      mellan 1,9rem och 2,6rem. Ger fluid text utan media queries. */
 h2 {
-    font-size: clamp(1.9, 4vw, 2.6rem);
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 800;
 }
 h3 {
     font-size: 1.35rem;
+    font-weight: 700;
+}
+p {
+    margin: 0 0 var(--space-2);
 }
 
-.lead {
-    font-size: 125%;
-}
-
+/* Länkar får primärfärgen. Understrykningen får vara kvar så att länkar syns utan färg. */
 a {
     color: var(--color-primary);
 }
 
-.focus-visible {
-    outline: 3px solid var(--color-primary);
+/* Fokusmarkering. Mörka sektioner byter färg via variabeln --focus */
+/* VIKTIGT för tillgänglighet. Visas bara när man navigerar med tangentbordet.
+      Ta aldrig bort den utan att ersätta den. var(--focus, X) betyder: använd --focus om den finns, annars X. */
+:focus-visible {
+    outline: 3px solid var(--focus, var(--color-primary)); /* ram utanför elementet som inte påverkar layouten */
+    outline-offset: 3px; /* avstånd mellan elementet och ramen */
 }
-
+/* På mörk bakgrund byter vi fokusfärg till limegrön. Det räcker att ändra variabeln,
+      regeln ovan använder den automatiskt. */
 .on-dark {
     --focus: var(--color-accent);
 }
 
+/* Centrerar innehållet. min(100% - 2rem, 70rem) betyder: nästan full bredd på mobil
+      (med 1rem marginal per sida) men aldrig bredare än 70rem. margin-inline: auto centrerar. */
 .container {
-    width: min(100% - 2rem, var(--max-width));
-    margin-inline: auto;
+    width: min(100% - 2rem, var(--max-width)); /* bredd */
+    margin-inline: auto; /* auto på båda sidor centrerar blocket */
 }
+
+/* Varje sektion får luft upptill och nedtill. */
 .section {
-    padding-block: var(--space-5);
+    padding-block: var(--space-6);
 }
-.section-tint {
-    background-color: var(--color-tint);
+/* Modifierare (BEM): läggs till som andra klass för att byta bakgrund på en sektion. */
+.section--tint {
+    background: var(--color-tint);
 }
+/* Elementnamn med två understreck (BEM) visar vad klassen tillhör: intro i en section. */
 .section__intro {
-    font-size: 1.25rem;
     color: var(--color-muted);
     margin-bottom: var(--space-4);
+}
+
+/* Hoppa-länken göms utanför skärmen (inte display: none, då hittar skärmläsare den inte). */
+.skip {
+    position: absolute; /* placeras fritt inuti närmaste förälder med position */
+    left: -999px; /* avstånd från vänsterkanten */
+    background: var(--color-ink); /* bakgrund */
+    color: #fff; /* textfärg */
+    padding: var(--space-1) var(--space-2); /* luft INUTI elementet */
+    z-index: 100; /* stapelordning, högst ligger överst */
+}
+/* När den får fokus med Tab flyttas den in i bild. */
+.skip:focus {
+    left: var(--space-2);
+    top: var(--space-2);
+}
+
+/* ===== Sidhuvud ===== */
+/* position: sticky fäster headern upptill när man scrollar. backdrop-filter suddar ut
+      det som ligger bakom. rgb(... / 0.88) är en färg med 88 % täckning. */
+.header {
+    position: sticky; /* fastnar upptill när man scrollar förbi */
+    top: 0; /* avstånd från överkanten */
+    z-index: 10; /* stapelordning, högst ligger överst */
+    background: rgb(245 246 240 / 0.88); /* bakgrund */
+    backdrop-filter: blur(12px); /* filter på det som ligger bakom elementet */
+    border-bottom: 1px solid var(--color-line); /* linje under */
+}
+/* Flexbox: logga till vänster och meny till höger på samma rad. */
+.header__inner {
+    display: flex; /* barnen läggs på en rad (flexbox) */
+    align-items: center; /* centrerar lodrätt */
+    justify-content: space-between; /* så långt isär som möjligt */
+    gap: var(--space-3); /* avstånd mellan barnen */
+    padding-block: var(--space-1); /* luft inuti, upptill och nedtill */
+}
+/* Loggan är en länk till startsidan, utan understrykning. */
+.logo {
+    font-size: 1.5rem; /* textstorlek */
+    font-weight: 800; /* tjocklek: 400 normal, 700 fet, 800 extra fet */
+    letter-spacing: -0.03em; /* avstånd mellan bokstäver (negativt = tätare) */
+    color: var(--color-ink); /* textfärg */
+    text-decoration: none; /* tar bort understrykning */
+}
+/* ::after skapar ett extra element efter loggan utan att röra HTML. Här en liten prick.
+      content: "" krävs för att det ska visas. */
+.logo::after {
+    content: ''; /* texten som ::before/::after visar */
+    display: inline-block; /* ligger i textflödet men kan ha storlek och luft */
+    width: 0.5rem; /* bredd */
+    height: 0.5rem; /* höjd */
+    margin-left: 0.2rem; /* luft till vänster */
+    border-radius: 50%; /* rundade hörn (50 % = cirkel, 999px = piller) */
+    background: var(--color-primary); /* bakgrund */
+}
+/* Menyn är en lista (ul). Vi tar bort punkterna och lägger länkarna på en rad. */
+.nav {
+    display: flex; /* barnen läggs på en rad (flexbox) */
+    gap: var(--space-2); /* avstånd mellan barnen */
+    list-style: none; /* tar bort punkter och siffror */
+    margin: 0; /* nollställ webbläsarens standardmarginal */
+    padding: 0; /* luft INUTI elementet */
+}
+/* Stor klickyta: padding gör att man kan träffa länken med tummen.
+      Den ligger på a, inte på li, så att hela ytan är klickbar. */
+.nav a {
+    display: inline-block; /* ligger i textflödet men kan ha storlek och luft */
+    padding: 0.5rem 0.75rem; /* större träffyta */
+    border-radius: 999px; /* rundade hörn (50 % = cirkel, 999px = piller) */
+    color: var(--color-ink); /* textfärg */
+    text-decoration: none; /* tar bort understrykning */
+    font-weight: 600; /* tjocklek: 400 normal, 700 fet, 800 extra fet */
+}
+/* :hover = när musen är över. Det får aldrig vara det enda tecknet på att något är klickbart. */
+.nav a:hover {
+    background: var(--color-tint);
+}
+
+/* ===== Knappar ===== */
+/* Basen för alla knappar. De är länkar (a) som ser ut som knappar.
+      Transparent ram nu, så att knappen inte hoppar när ramen får färg på hover. */
+.btn {
+    display: inline-block; /* ligger i textflödet men kan ha storlek och luft */
+    padding: 0.85rem 1.6rem; /* luft INUTI elementet */
+    border-radius: 999px; /* rundade hörn (50 % = cirkel, 999px = piller) */
+    font-weight: 700; /* tjocklek: 400 normal, 700 fet, 800 extra fet */
+    text-decoration: none; /* tar bort understrykning */
+    border: 2px solid transparent; /* ram: tjocklek stil färg */
+}
+/* Variant: fylld limegrön knapp med mörk text (kontrast 13,5:1). */
+.btn--primary {
+    background: var(--color-accent);
+    color: var(--color-ink);
+}
+/* Lite ljusare vid hover. */
+.btn--primary:hover {
+    background: #d6f76a;
+}
+/* Variant: bara en ram, för mörk bakgrund. */
+.btn--ghost {
+    border-color: rgb(255 255 255 / 0.6);
+    color: #fff;
+}
+/* Svag fyllning vid hover. */
+.btn--ghost:hover {
+    border-color: #fff;
+    background: rgb(255 255 255 / 0.1);
+}
+/* Knapprad. flex-wrap låter knapparna hamna under varandra när det är trångt. */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
 }
