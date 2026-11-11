@@ -169,7 +169,7 @@ a {
     display: flex; /* barnen läggs på en rad (flexbox) */
     align-items: center; /* centrerar lodrätt */
     justify-content: space-between; /* så långt isär som möjligt */
-    gap: var(--space-3); /* avstånd mellan barnen */
+    gap: var(--space-1); /* avstånd mellan barnen */
     padding-block: var(--space-1); /* luft inuti, upptill och nedtill */
 }
 /* Loggan är en länk till startsidan, utan understrykning. */
@@ -179,6 +179,7 @@ a {
     letter-spacing: -0.03em; /* avstånd mellan bokstäver (negativt = tätare) */
     color: var(--color-ink); /* textfärg */
     text-decoration: none; /* tar bort understrykning */
+    white-space: nowrap; /* Säkerställer att logotexten håller ihop med cirkeln */
 }
 /* ::after skapar ett extra element efter loggan utan att röra HTML. Här en liten prick.
       content: "" krävs för att det ska visas. */
@@ -262,12 +263,16 @@ a {
         var(--color-deep);
     color: #fff;
     padding-block: var(--space-5) var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr;
 }
 .hero__inner {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    align-items: center;
-    gap: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    /* grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); */
+    gap: var(--space-1);
 }
 .hero h1 {
     font-size: var(--text-hero);
@@ -283,6 +288,7 @@ a {
     padding: 0.35rem 0.9rem;
     border-radius: 32px;
     display: inline-block;
+    width: fit-content;
 }
 
 .lead {
@@ -295,6 +301,7 @@ a {
 .hero__media {
     position: relative;
     margin: 0;
+    padding: var(--space-2);
 }
 .hero__media img {
     width: 100%;
@@ -306,12 +313,133 @@ a {
 
 .badge {
     position: absolute;
-    left: var(--space-3);
-    bottom: var(--space-3);
+    left: var(--space-4);
+    bottom: var(--space-4);
     padding: 0.6rem 1.1rem; /* luft INUTI elementet */
     border-radius: 999px; /* rundade hörn (50 % = cirkel, 999px = piller) */
     background: var(--color-accent); /* bakgrund */
     color: var(--color-ink); /* textfärg */
     font-weight: 700; /* tjocklek: 400 normal, 700 fet, 800 extra fet */
     box-shadow: var(--shadow); /* skugga: x y suddighet färg */
+}
+.actions {
+    margin-bottom: var(--space-2);
+}
+.stats {
+    background-color: #fff;
+    padding: var(--space-5);
+}
+.stats__list,
+.cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.stats__list li {
+    color: var(--color-muted);
+}
+.stats__list li strong {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+.steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: steps;
+}
+.steps li {
+    counter-increment: steps;
+    background-color: #fff;
+    padding: var(--space-4) var(--space-3);
+    border-radius: 1.25rem;
+}
+.steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+
+    background-color: var(--color-accent);
+    font-weight: 700;
+
+    margin-bottom: 0.75rem;
+}
+.section__intro {
+    color: var(--color-muted);
+}
+
+.card {
+    background-color: #fff;
+    padding: var(--space-4) var(--space-3);
+    border: 1px solid var(--color-tint);
+    border-radius: 1.25rem;
+}
+.card__meta {
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.cta {
+    background:
+        linear-gradient(rgb(0 0 0 / 65%), rgb(0 0 0 / 65%)),
+        url('/images/hero.jpg');
+
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+}
+.on-dark {
+    color: white;
+}
+.cta__inner {
+    padding: var(--space-5);
+}
+
+footer .container {
+    padding: 0.5rem 0;
+}
+footer p {
+    margin-bottom: 0;
+}
+@media (max-width: 600px) {
+    .header__inner {
+        flex-wrap: wrap;
+    }
+
+    .header__inner nav {
+        width: 100%;
+    }
+
+    .nav {
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .stats__list,
+    .cards,
+    .steps {
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: space-between;
+    }
+    .stats__list li {
+        justify-self: center;
+        gap: var(--space-4);
+    }
 }
