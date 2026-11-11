@@ -33,3 +33,26 @@
     ); /* clamp(minst, ideal, störst): växer med fönstret */
     --max-width: 70rem; /* innehållets maxbredd */
 }
+
+/* GRUNDINSTÄLLNING */
+/* Resets margins and paddings */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hoppar till ankarlänk, men med ett bestämt avstånd uppåt eller nedåt */
+html {
+    scroll-padding-top: 5rem;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+}
