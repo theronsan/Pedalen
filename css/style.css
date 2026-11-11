@@ -251,3 +251,67 @@ a {
     gap: var(--space-2);
     margin: 0;
 }
+
+.hero {
+    background:
+        radial-gradient(
+            60rem 30rem at 65% 20%,
+            rgb(200 240 60 /0.16),
+            transparent 60%
+        ),
+        var(--color-deep);
+    color: #fff;
+    padding-block: var(--space-5) var(--space-6);
+}
+.hero__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    align-items: center;
+    gap: var(--space-5);
+}
+.hero h1 {
+    font-size: var(--text-hero);
+}
+
+.eyebrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02rem;
+    color: var(--color-accent);
+    background-color: rgb(200 240 60 /0.14);
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 32px;
+    display: inline-block;
+}
+
+.lead {
+    font-size: 125%;
+    color: #d5e0d8;
+    max-width: 32rem;
+    margin-bottom: var(--space-2);
+}
+
+.hero__media {
+    position: relative;
+    margin: 0;
+}
+.hero__media img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1.5rem 0.75rem rgb(0 0 0 /0.5);
+}
+
+.badge {
+    position: absolute;
+    left: var(--space-3);
+    bottom: var(--space-3);
+    padding: 0.6rem 1.1rem; /* luft INUTI elementet */
+    border-radius: 999px; /* rundade hörn (50 % = cirkel, 999px = piller) */
+    background: var(--color-accent); /* bakgrund */
+    color: var(--color-ink); /* textfärg */
+    font-weight: 700; /* tjocklek: 400 normal, 700 fet, 800 extra fet */
+    box-shadow: var(--shadow); /* skugga: x y suddighet färg */
+}
