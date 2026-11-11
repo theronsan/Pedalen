@@ -443,6 +443,5 @@ footer p {
     }
     .stats__list li {
         justify-self: center;
-        gap: var(--space-4);
     }
 }
